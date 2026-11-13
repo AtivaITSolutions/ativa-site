@@ -6,9 +6,9 @@ Last updated: 2026-11-13
 
 ## Current phase
 
-**→ Phase 1 — SDK contract (adopt)**
+**→ Phase 2 — Minimal site (read path)**
 
-_Phase 0 completed 2026-11-13 and is awaiting review — no Phase 1 work has started yet._
+_Phase 1 completed 2026-11-13 and is awaiting review — no Phase 2 work has started yet._
 
 ## Phases
 
@@ -20,9 +20,10 @@ Same phase numbers as `../ativa-cms/docs/TRACKER.md`. These are the **site** tas
 - [x] Scripts: `dev`, `lint`, `typecheck`, `test`, `build` (+ `cms:push` placeholder); `.nvmrc` (20.19.0)
 - **Done when:** the site runs locally on `:3000` and all checks pass (admin runs on `:3001` in the CMS repo). ✅ Verified 2026-11-13 — site boots on :3000; typecheck/lint/build/test all green.
 
-### Phase 1 — SDK contract (adopt)
-- [ ] Add an example `heroDef` that type-checks against the SDK inside this repo
-- **Done when:** the example `heroDef` type-checks in `ativa-site` (SDK tests pass in the CMS repo).
+### Phase 1 — SDK contract (adopt) ✅
+- [x] Add an example `heroDef` that type-checks against the SDK inside this repo (`blocks/hero/definition.ts`)
+- [x] Add `zod` dependency (SDK source is transpiled into the site; block props validated via Zod)
+- **Done when:** the example `heroDef` type-checks in `ativa-site` (SDK tests pass in the CMS repo). ✅ Verified 2026-11-13 — site typecheck/lint/build/test all green.
 
 ### Phase 2 — Minimal site (read path)
 - [ ] `hero`, `richText`, `ctaBanner` blocks (definition + component)

@@ -13,3 +13,4 @@ Last updated: 2026-11-13
 - Docs filled from `PROJECT-BRIEF.md` (PRD, Architecture, Database, Design, SEO, Security, Testing, Decisions, Tracker with phases 0–11 + Later).
 - **Phase 0 — App scaffold:** standalone Next.js 16 app (React 19, Tailwind v4, `output: "standalone"`, port 3000), `@ativa/cms-sdk` installed via `file:../ativa-cms/packages/sdk` (`transpilePackages`).
 - `.nvmrc` (20.19.0); scripts `dev`/`lint`/`typecheck`/`test`/`build` plus a `cms:push` placeholder. Checks pass; site runs on `:3000`.
+- **Phase 1 — SDK adopt:** example block `blocks/hero/definition.ts` (`heroDef`) that type-checks against `@ativa/cms-sdk`; added `zod` dependency. Site typecheck/lint/build/test green.
