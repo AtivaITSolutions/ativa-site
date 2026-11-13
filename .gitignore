@@ -1,0 +1,26 @@
+# Secrets — never commit real env files. .env.example IS committed.
+.env
+.env.*
+!.env.example
+
+# Claude Code local overrides (personal, per-machine)
+.claude/settings.local.json
+
+# Dependencies & build output
+node_modules
+.next
+out
+dist
+coverage
+*.tsbuildinfo
+next-env.d.ts
+
+# Logs & OS cruft
+npm-debug.log*
+.DS_Store
+
+# Next.js auto-generated agent rules (re-created by `next dev`; this project uses CLAUDE.md)
+AGENTS.md
+
+# Generated script output
+scripts/output/
