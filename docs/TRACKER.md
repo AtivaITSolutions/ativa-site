@@ -6,9 +6,9 @@ Last updated: 2026-11-17
 
 ## Current phase
 
-**→ Phase 3 — Minimal CMS (write path) — site side**
+**→ Phase 4 — Drafts, preview, revisions — site side** (next)
 
-_Phase 2 completed 2026-11-13 and is awaiting review — no Phase 3 work has started yet. Rendering the seeded pages needs a live Atlas DB + `npm run seed` (see docs/DATABASE.md → Atlas setup)._
+_Phase 3 (site side) is **code complete**: `cms:push` (3b-i) and `/api/revalidate` (3b-iii), all checks green 2026-11-17, awaiting review. Live publish→revalidate needs a live Atlas DB + a matching `CMS_REVALIDATE_SECRET`._
 
 ## Phases
 
@@ -37,8 +37,8 @@ Same phase numbers as `../ativa-cms/docs/TRACKER.md`. These are the **site** tas
 
 ### Phase 3 — Minimal CMS (write path) — site side
 - [x] `cms:push` script (send block/template definitions to the CMS) — **3b-i**, tsx runner + `@ativa/cms-sdk/cli`; checks green 2026-11-17 (live push needs a site + API key)
-- [ ] `/api/revalidate` route verifying the `x-cms-signature` HMAC — **3b-iii**
-- **Done when:** an edit published in the CMS appears on the running site within seconds without a rebuild.
+- [x] `/api/revalidate` route verifying the `x-cms-signature` HMAC — **3b-iii** (`createRevalidateHandler` from `@ativa/cms-sdk/next`; env `CMS_REVALIDATE_SECRET`); checks green 2026-11-17
+- **Done when:** an edit published in the CMS appears on the running site within seconds without a rebuild. ⚠️ Code complete; live flow needs Atlas + matching revalidate secret in `.env` and the CMS registry.
 
 ### Phase 4 — Drafts, preview, revisions — site side
 - [ ] `/api/preview` route: verify signed token (signature + expiry), enable Draft Mode, render `draftBlocks`
