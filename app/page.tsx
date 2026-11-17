@@ -1,11 +1,18 @@
-export default function Home() {
-  return (
-    <main className="mx-auto flex min-h-dvh max-w-2xl flex-col justify-center gap-3 px-6">
-      <h1 className="text-2xl font-semibold">Ativa Site</h1>
-      <p className="text-sm text-[var(--foreground)]/70">
-        Site scaffold (Phase 0). Content, blocks, templates and design tokens land phase by phase
-        per <code>docs/TRACKER.md</code>; pages render from the CMS via the SDK.
-      </p>
-    </main>
-  );
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
+import { PageRenderer } from "@ativa/cms-sdk/react";
+import { registry } from "@/blocks";
+import { getPage } from "@/lib/cms";
+import { buildMetadata } from "@/lib/metadata";
+
+export const dynamic = "force-dynamic";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return buildMetadata(await getPage("/"));
+}
+
+export default async function HomePage() {
+  const page = await getPage("/");
+  if (!page) notFound();
+  return <PageRenderer blocks={page.blocks} registry={registry} />;
 }

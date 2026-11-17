@@ -1,6 +1,6 @@
 # Database — Ativa Site (read-only)
 
-Last updated: 2026-11-11
+Last updated: 2026-11-13
 
 > Purpose: what this site reads from its database and how. The site is **read-only**: it connects to `site_ativa` with a read-only Mongo user and never writes. This doc is a short, site-side view only — the full schema (fields, types, indexes, references) lives in `../ativa-cms/docs/DATABASE.md`, which is the source of truth. If the two disagree, that doc wins; do not define schema here.
 
@@ -38,3 +38,20 @@ Assumptions the renderer depends on (and must fail gracefully if broken) — kee
 - **Media referenced by id**, resolved to URL at render; a missing media id degrades gracefully (no crash).
 - **Redirects honored** before 404: a path in `redirects` returns the configured 301/302.
 - Invalid/unknown blocks are **skipped**, never fatal (SDK `<PageRenderer>` guarantee).
+
+## Atlas setup (Phase 2)
+
+One-time setup to run the site locally against MongoDB Atlas.
+
+1. **Database:** create the `site_ativa` database (the first managed site's DB). Collections are created on first write by the seed.
+2. **Users (two, least-privilege):**
+   - A **readWrite** user scoped to `site_ativa` — used only by the CMS and by the dev-only seed script. **Never** used by the running site.
+   - A **read-only** user scoped to `site_ativa` — the only credential the running site uses (role `read` on `site_ativa`).
+3. **Network access:** allowlist your dev IP (and later the VPS IP) under Atlas → Network Access.
+4. **Env vars** (names only; values go in `.env`, never committed — `.env.example` tracks the names):
+   - `MONGODB_URI_READONLY` — the site runtime connection string (**read-only** user).
+   - `MONGODB_DB` — the database name (defaults to `site_ativa`).
+   - `SEED_MONGODB_URI` — **dev-only** readWrite connection string, used solely by `npm run seed`. Keep it out of the app runtime and out of git.
+5. **Seed** the two Phase-2 pages: `SEED_MONGODB_URI="mongodb+srv://…" npm run seed` (writes `/` and `/seo-agency-in-los-angeles/`), then run `npm run dev` and open those exact URLs.
+
+The runtime site holds only the read-only credential; writing is confined to the dev seed with a separate URI (see `docs/SECURITY.md`).

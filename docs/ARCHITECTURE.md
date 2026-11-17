@@ -1,6 +1,6 @@
 # Architecture — Ativa Site
 
-Last updated: 2026-11-11
+Last updated: 2026-11-13
 
 > Purpose: how the Ativa Site is built and how its parts fit together. It records the stack and why each piece was chosen, the folder layout, how content flows in (read-only, via the SDK), the external services, the environment variables (names only), and how we deploy. Read this before changing structure, boundaries, data flow, or deployment.
 
@@ -52,6 +52,7 @@ Planned layout (see the workspace `CLAUDE.md`):
 Names only — values live in `.env` (never committed). Keep in sync with `.env.example`.
 
 - **Database (read-only):** `MONGODB_URI_READONLY`, `MONGODB_DB` (`site_ativa`).
+- **Dev-only (seed):** `SEED_MONGODB_URI` — a readWrite URI used **only** by `npm run seed`, never by the running app. Keep out of production env and git.
 - **Site identity:** `SITE_SLUG`, `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_FOLDER`.
 - **Signing secrets (verify only):** `REVALIDATE_SECRET` (HMAC for `/api/revalidate`), `PREVIEW_SECRET` (JWT for `/api/preview`).
 - **CMS integration:** `CMS_BASE_URL`, `CMS_FORMS_ENDPOINT` (or derived from `CMS_BASE_URL` + `SITE_SLUG`), `CMS_API_KEY` (schema push via `cms:push`).

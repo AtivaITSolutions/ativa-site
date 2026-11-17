@@ -6,9 +6,9 @@ Last updated: 2026-11-13
 
 ## Current phase
 
-**→ Phase 2 — Minimal site (read path)**
+**→ Phase 3 — Minimal CMS (write path) — site side**
 
-_Phase 1 completed 2026-11-13 and is awaiting review — no Phase 2 work has started yet._
+_Phase 2 completed 2026-11-13 and is awaiting review — no Phase 3 work has started yet. Rendering the seeded pages needs a live Atlas DB + `npm run seed` (see docs/DATABASE.md → Atlas setup)._
 
 ## Phases
 
@@ -25,14 +25,15 @@ Same phase numbers as `../ativa-cms/docs/TRACKER.md`. These are the **site** tas
 - [x] Add `zod` dependency (SDK source is transpiled into the site; block props validated via Zod)
 - **Done when:** the example `heroDef` type-checks in `ativa-site` (SDK tests pass in the CMS repo). ✅ Verified 2026-11-13 — site typecheck/lint/build/test all green.
 
-### Phase 2 — Minimal site (read path)
-- [ ] `hero`, `richText`, `ctaBanner` blocks (definition + component)
-- [ ] Block registry (`blocks/index.ts`)
-- [ ] Catch-all route + home route with trailing slashes, `generateMetadata`, `notFound`
-- [ ] Per-path cache tags
-- [ ] Seed script for home and `/seo-agency-in-los-angeles/`
-- [ ] Atlas setup guide (databases, read-only + readWrite users, network access)
-- **Done when:** both seeded pages render at their exact URLs, unknown paths 404, and bad block data does not crash the page.
+### Phase 2 — Minimal site (read path) ✅
+- [x] `hero`, `richText`, `ctaBanner` blocks (definition + component; safe Tiptap-JSON renderer)
+- [x] Block registry (`blocks/index.ts`)
+- [x] Catch-all `[...path]` + home route, `trailingSlash: true`, `generateMetadata`, `notFound`
+- [x] Per-path cache tags (`unstable_cache`, tag `page:<path>`)
+- [x] Seed script for home and `/seo-agency-in-los-angeles/` (dev-only readWrite URI)
+- [x] Atlas setup guide (`docs/DATABASE.md` → Atlas setup)
+- **Done when:** both seeded pages render at their exact URLs, unknown paths 404, and bad block data does not crash. ⚠️ Typecheck/lint/build/test green and dev server boots (2026-11-13); **full page rendering requires a live Atlas DB + `npm run seed`** (credentials needed — run by the maintainer).
+- Note: site builds with **webpack** (`--webpack`) + Tailwind-via-PostCSS while the SDK is a `file:` dep (Turbopack can't resolve it) — see `../ativa-cms/docs/DECISIONS.md` ADR-017.
 
 ### Phase 3 — Minimal CMS (write path) — site side
 - [ ] `cms:push` script (send block/template definitions to the CMS)
