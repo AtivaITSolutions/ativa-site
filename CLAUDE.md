@@ -11,7 +11,7 @@ Rebuild of ativaitsolutions.com (currently WordPress + Elementor) as a Next.js w
 - `npm run typecheck` — TypeScript check. _TODO: verify once scripts exist._
 - `npm run test` — run tests. _TODO: verify once scripts exist._
 - `npm run build` — production build. _TODO: verify once scripts exist._
-- `npm run cms:push` — send block and template definitions to the CMS. _TODO: verify once scripts exist._
+- `npm run cms:push` — send block/template definitions to the CMS (`scripts/cms-push.ts` via tsx; needs `CMS_URL` + `CMS_API_KEY` in `.env`). ✅ verified 2026-11-17.
 
 ## Workspace
 This repo lives next to `../ativa-cms/` in the same workspace folder. The two repos are independent (separate Git, package.json, env, CI, deploy); the only code link is `@ativa/cms-sdk`.

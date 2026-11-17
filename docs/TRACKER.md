@@ -1,6 +1,6 @@
 # Tracker — Ativa Site
 
-Last updated: 2026-11-13
+Last updated: 2026-11-17
 
 > Purpose: the single place that says what phase we are in and what is left to do. Work proceeds phase by phase; stop at the end of each phase for review. Check off tasks as they land and move the "Current phase" marker. Record anything blocking in the last section.
 
@@ -36,8 +36,8 @@ Same phase numbers as `../ativa-cms/docs/TRACKER.md`. These are the **site** tas
 - Note: site builds with **webpack** (`--webpack`) + Tailwind-via-PostCSS while the SDK is a `file:` dep (Turbopack can't resolve it) — see `../ativa-cms/docs/DECISIONS.md` ADR-017.
 
 ### Phase 3 — Minimal CMS (write path) — site side
-- [ ] `cms:push` script (send block/template definitions to the CMS)
-- [ ] `/api/revalidate` route verifying the `x-cms-signature` HMAC
+- [x] `cms:push` script (send block/template definitions to the CMS) — **3b-i**, tsx runner + `@ativa/cms-sdk/cli`; checks green 2026-11-17 (live push needs a site + API key)
+- [ ] `/api/revalidate` route verifying the `x-cms-signature` HMAC — **3b-iii**
 - **Done when:** an edit published in the CMS appears on the running site within seconds without a rebuild.
 
 ### Phase 4 — Drafts, preview, revisions — site side
