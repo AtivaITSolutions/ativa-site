@@ -41,9 +41,9 @@ Same phase numbers as `../ativa-cms/docs/TRACKER.md`. These are the **site** tas
 - **Done when:** an edit published in the CMS appears on the running site within seconds without a rebuild. ⚠️ Code complete; live flow needs Atlas + matching revalidate secret in `.env` and the CMS registry.
 
 ### Phase 4 — Drafts, preview, revisions — site side
-- [ ] `/api/preview` route: verify signed token (signature + expiry), enable Draft Mode, render `draftBlocks`
-- [ ] Device-width preview works inside the CMS iframe
-- [ ] Middleware honors auto-301 redirects on slug changes
+- [x] `/api/preview` route: verify signed token (signature + expiry), enable Draft Mode, render `draftBlocks` — **4a** (`createPreviewHandler`; `lib/cms.ts` reads `draftBlocks` uncached in Draft Mode; `/api/preview/exit` leaves it). Env `CMS_PREVIEW_SECRET`. Checks green 2026-11-17.
+- [x] Device-width preview works inside the CMS iframe — **4a** (CMS embeds this route; dev only — prod needs `frame-ancestors` for the CMS origin).
+- [ ] Middleware honors auto-301 redirects on slug changes — **4d**
 - **Done when:** a valid preview shows draft content, an expired/forged token is refused, and slug-change 301s resolve on the site.
 
 ### Phase 5 — Media library — site side
