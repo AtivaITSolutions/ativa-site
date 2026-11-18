@@ -1,6 +1,6 @@
 # Changelog — Ativa Site
 
-Last updated: 2026-11-17
+Last updated: 2026-11-18
 
 > Purpose: a human-readable log of what changed, newest first, in the style of [Keep a Changelog](https://keepachangelog.com/). Add an entry when a phase closes (via `/phase-done`) or when a notable change ships. Group changes under Added / Changed / Fixed / Removed / Security.
 
@@ -18,4 +18,5 @@ Last updated: 2026-11-17
 - Build switched to **webpack** (`--webpack`) with Tailwind v4 via PostCSS (`@tailwindcss/postcss`), because Turbopack can't resolve the `file:` SDK dep during dev; added dep `mongodb` (seed + SDK runtime). See `../ativa-cms/docs/DECISIONS.md` ADR-017.
 - **Phase 3b-i — schema push (site side):** real `cms:push` — `blocks/definitions.ts` (definitions only, no React) sent to the CMS via `@ativa/cms-sdk/cli` `pushSchema` from `scripts/cms-push.ts`, run with **tsx** (`node --import tsx`). New env vars `CMS_URL`, `CMS_API_KEY` (optional `GIT_COMMIT`). Added devDep `tsx`. Typecheck/lint/build green.
 - **Phase 3b-iii — revalidate (site side):** `app/api/revalidate/route.ts` using `createRevalidateHandler` from `@ativa/cms-sdk/next` — verifies the CMS's `x-cms-signature` HMAC, then revalidates the per-path cache tags. New env var `CMS_REVALIDATE_SECRET` (shared with the CMS registry). Typecheck/lint/build green.
+- **Phase 4d — redirects (site side):** `proxy.ts` (Next 16's Node-runtime middleware, renamed from `middleware.ts`) honors CMS-managed redirects — on a content path it looks up the `redirects` collection via the SDK's new `getRedirectByPath` (0.5.0) and emits a real **301** with `NextResponse.redirect(url, 301)` (trailing-slash-normalized, query preserved), before routing/404. `lib/cms.ts#getRedirect`. No new env var. Typecheck/lint/build green.
 - **Phase 4a — preview (site side):** `app/api/preview/route.ts` (`createPreviewHandler`) verifies the CMS's signed token + expiry, enables Draft Mode, and redirects to the path; `lib/cms.ts` reads `draftBlocks` uncached in Draft Mode; `app/api/preview/exit` leaves Draft Mode. New env var `CMS_PREVIEW_SECRET` (shared with the CMS registry). Typecheck/lint/build green.

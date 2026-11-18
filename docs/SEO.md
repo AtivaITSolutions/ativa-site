@@ -1,6 +1,6 @@
 # SEO — Ativa Site
 
-Last updated: 2026-11-11
+Last updated: 2026-11-18
 
 > Purpose: the SEO rules for the public site. The overriding constraint: **keep every existing WordPress URL exactly as it is** so rankings survive the rebuild. It covers URL rules, metadata, structured data by page type, sitemaps/robots, redirects, location-page rules, and the WordPress migration. Read this before anything that touches URLs, metadata or markup.
 
@@ -38,8 +38,8 @@ The page `type` (and `seo.schemaType` when set) determines which builders run.
 
 ## Redirects
 
-- The `redirects` collection drives **301/302** handling, applied in middleware **before** 404, with explicit redirects taking precedence over catch-all resolution.
-- **Slug changes on published pages create automatic 301s** (old path → new path), honored by the site.
+- The per-site `redirects` collection drives **301/302** handling, applied in **`proxy.ts`** (Next 16's Node-runtime middleware) **before** routing/404, with explicit redirects taking precedence over catch-all resolution. The proxy reads via the SDK's `getRedirectByPath` and emits a real 301 with `NextResponse.redirect(url, 301)` (path normalized to the trailing-slash form; query string preserved).
+- **Slug changes on published pages create automatic 301s** (old path → new path): the CMS writes the `redirects` row when an editor changes a published page's path; the site honors it. See `../ativa-cms/docs/DECISIONS.md` ADR-022.
 
 ## Location page rules
 

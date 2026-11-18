@@ -1,6 +1,6 @@
 # Decisions — Ativa Site (ADRs)
 
-Last updated: 2026-11-11
+Last updated: 2026-11-18
 
 > Purpose: the architecture decision record for the site. Every significant or hard-to-reverse decision gets an entry here. A needed change to the SDK contract or the data model is **not** decided here — it goes to the maintainer as a question (never an edit to `../ativa-cms`); record the outcome once decided. Use the template below; keep the Decisions list newest first.
 
@@ -21,6 +21,14 @@ Copy this block for each new decision:
 ## Decisions
 
 Newest first. These are the founding decisions that shape the **site**; the ecosystem-wide decisions are recorded in `../ativa-cms/docs/DECISIONS.md` (ADR-001…015) and are not re-litigated here.
+
+### ADR-006: Honor CMS redirects in `proxy.ts` (Node-runtime), not the catch-all route (Phase 4d)
+- Date: 2026-11-18
+- Status: Accepted
+- Decision: The site resolves CMS-managed redirects in **`proxy.ts`** (Next 16's renamed, Node-runtime middleware), looking the incoming path up via the SDK's `getRedirectByPath` and returning a real **301** with `NextResponse.redirect(url, 301)` before routing. The path is normalized to the trailing-slash form; the query string is preserved; the `matcher` skips `_next`, `api/` and static files.
+- Context: a slug change on a published page must forward the old URL with a true 301 (ADR-001 keeps every legacy URL). Next 16 runs `proxy.ts` on Node, so it can use the Mongo-backed SDK reader and emit a 301 — an edge middleware could not, and `redirect()`/`permanentRedirect()` in a route only yield 307/308.
+- Alternatives considered: redirect inside the `[...path]` route before `notFound()` (307/308, not 301; still a second read); `next.config` redirects (not data-driven, needs a rebuild). The CMS-side schema/flow is CMS ADR-022.
+- Consequences: one indexed `findOne` per content request (cheap; fronted by Cloudflare HTML cache in prod); the site stays read-only (no hit counter). Mirrors CMS ADR-022.
 
 ### ADR-005: The SDK is the only link to the CMS (`file:` in dev, GitHub Packages later)
 - Date: 2026-11-11

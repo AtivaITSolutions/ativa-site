@@ -27,4 +27,13 @@ export async function getPage(path: string) {
   })();
 }
 
+/**
+ * Look up a redirect for an incoming path (used by `proxy.ts`). Read-only and
+ * uncached: redirects are the exception path (only hit when a page is missing)
+ * and must reflect a slug change immediately. Returns `null` on none.
+ */
+export async function getRedirect(path: string) {
+  return client.getRedirectByPath(path);
+}
+
 export { client as siteClient };

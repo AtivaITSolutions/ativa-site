@@ -1,14 +1,14 @@
 # Tracker — Ativa Site
 
-Last updated: 2026-11-17
+Last updated: 2026-11-18
 
 > Purpose: the single place that says what phase we are in and what is left to do. Work proceeds phase by phase; stop at the end of each phase for review. Check off tasks as they land and move the "Current phase" marker. Record anything blocking in the last section.
 
 ## Current phase
 
-**→ Phase 4 — Drafts, preview, revisions — site side** (next)
+**→ Phase 5 — Media library — site side** (next)
 
-_Phase 3 (site side) is **code complete**: `cms:push` (3b-i) and `/api/revalidate` (3b-iii), all checks green 2026-11-17, awaiting review. Live publish→revalidate needs a live Atlas DB + a matching `CMS_REVALIDATE_SECRET`._
+_Phase 4 (site side) is **code complete**: preview (4a, `/api/preview`) and redirects (4d, `proxy.ts`); 4b/4c are CMS-only. All checks green 2026-11-18, awaiting review. Live flows need a running Atlas DB + matching `CMS_PREVIEW_SECRET`/`CMS_REVALIDATE_SECRET` and a redirect row from a CMS slug change._
 
 ## Phases
 
@@ -43,8 +43,8 @@ Same phase numbers as `../ativa-cms/docs/TRACKER.md`. These are the **site** tas
 ### Phase 4 — Drafts, preview, revisions — site side
 - [x] `/api/preview` route: verify signed token (signature + expiry), enable Draft Mode, render `draftBlocks` — **4a** (`createPreviewHandler`; `lib/cms.ts` reads `draftBlocks` uncached in Draft Mode; `/api/preview/exit` leaves it). Env `CMS_PREVIEW_SECRET`. Checks green 2026-11-17.
 - [x] Device-width preview works inside the CMS iframe — **4a** (CMS embeds this route; dev only — prod needs `frame-ancestors` for the CMS origin).
-- [ ] Middleware honors auto-301 redirects on slug changes — **4d**
-- **Done when:** a valid preview shows draft content, an expired/forged token is refused, and slug-change 301s resolve on the site.
+- [x] `proxy.ts` honors auto-301 redirects on slug changes — **4d** (Next 16 Node-runtime `proxy.ts`; `lib/cms.ts#getRedirect` via SDK `getRedirectByPath` 0.5.0; real 301 via `NextResponse.redirect(url, 301)`); checks green 2026-11-18
+- **Done when:** a valid preview shows draft content, an expired/forged token is refused, and slug-change 301s resolve on the site. ⚠️ Code complete 2026-11-18; live 301 needs Atlas + a redirect row (created by changing a published page's path in the CMS).
 
 ### Phase 5 — Media library — site side
 - [ ] Use the SDK Cloudinary image loader; resolve media by id to URL at render
