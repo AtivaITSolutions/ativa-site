@@ -1,6 +1,6 @@
 # Design — Ativa Site
 
-Last updated: 2026-11-11
+Last updated: 2026-11-18
 
 > Purpose: the design system for the **public Ativa Site** (distinct from the CMS admin UI). A premium, consistent website built block by block from inspiration designs. It covers principles, the design tokens (the only source of colors, type, spacing, etc.), components, the block catalogue, layout/breakpoints, accessibility, and do/don't. **Style only through the tokens here** — no one-off colors, sizes or fonts.
 
@@ -27,6 +27,8 @@ Last updated: 2026-11-11
 ## Components
 
 Shared primitives used across blocks (buttons, links, inputs, cards, badges, section wrapper, container), each with variants and states. **Pending Phase 6** — defined with the tokens, then documented here as they are built.
+
+- **`CmsImage`** (Phase 5, `components/CmsImage.tsx`) — the standard way blocks render CMS media. Takes a `ResolvedMedia` (from the page's media map) and renders `next/image` via the Cloudinary loader (`lib/cloudinary.ts`, `f_auto,q_auto,w_<width>`); alt text is **always present** (the block's own alt or the media's), and a neutral placeholder shows when the id doesn't resolve, so a missing image never crashes a page. Blocks never build image URLs by hand.
 
 ## Block catalogue
 

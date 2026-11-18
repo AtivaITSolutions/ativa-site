@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { PageRenderer } from "@ativa/cms-sdk/react";
 import { registry } from "@/blocks";
-import { getPage } from "@/lib/cms";
+import { getPage, getPageMedia } from "@/lib/cms";
 import { buildMetadata } from "@/lib/metadata";
 
 export const dynamic = "force-dynamic";
@@ -27,5 +27,6 @@ export default async function CatchAllPage({ params }: { params: Promise<RoutePa
   const { path } = await params;
   const page = await getPage(toPath(path));
   if (!page) notFound();
-  return <PageRenderer blocks={page.blocks} registry={registry} />;
+  const media = await getPageMedia(page.blocks);
+  return <PageRenderer blocks={page.blocks} registry={registry} media={media} />;
 }

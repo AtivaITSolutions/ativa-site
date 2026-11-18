@@ -6,9 +6,9 @@ Last updated: 2026-11-18
 
 ## Current phase
 
-**→ Phase 5 — Media library — site side** (next)
+**→ Phase 6 — Ativa design system + block library — site side** (next; stops for approval)
 
-_Phase 4 (site side) is **code complete**: preview (4a, `/api/preview`) and redirects (4d, `proxy.ts`); 4b/4c are CMS-only. All checks green 2026-11-18, awaiting review. Live flows need a running Atlas DB + matching `CMS_PREVIEW_SECRET`/`CMS_REVALIDATE_SECRET` and a redirect row from a CMS slug change._
+_Phase 5 (media, site side) is **code complete**: media resolution + Cloudinary `next/image` loader + `CmsImage` (SDK 0.6.0), Hero renders real images. All checks green 2026-11-18, awaiting review. Live render needs Atlas + a Cloudinary-backed media item. **Phase 6 is gated** on the Ativa inspiration designs + locked fonts/colors (see Blocked)._
 
 ## Phases
 
@@ -46,10 +46,10 @@ Same phase numbers as `../ativa-cms/docs/TRACKER.md`. These are the **site** tas
 - [x] `proxy.ts` honors auto-301 redirects on slug changes — **4d** (Next 16 Node-runtime `proxy.ts`; `lib/cms.ts#getRedirect` via SDK `getRedirectByPath` 0.5.0; real 301 via `NextResponse.redirect(url, 301)`); checks green 2026-11-18
 - **Done when:** a valid preview shows draft content, an expired/forged token is refused, and slug-change 301s resolve on the site. ⚠️ Code complete 2026-11-18; live 301 needs Atlas + a redirect row (created by changing a published page's path in the CMS).
 
-### Phase 5 — Media library — site side
-- [ ] Use the SDK Cloudinary image loader; resolve media by id to URL at render
-- [ ] Render required alt text; graceful fallback for missing media
-- **Done when:** images picked in the CMS render correctly on the site via the loader.
+### Phase 5 — Media library — site side ✅ — code complete & all checks green (2026-11-18)
+- [x] Resolve media by id to URL at render — `lib/cms.ts#getPageMedia` (SDK `collectMediaIds` + `getMediaByIds`) builds a media map passed to `<PageRenderer media={…}>`
+- [x] Cloudinary image loader + required alt + graceful fallback — `lib/cloudinary.ts` (`next/image` loader, inserts `f_auto,q_auto,w_<width>`), `components/CmsImage.tsx` (alt always present, placeholder when media missing); `Hero` renders the real image
+- **Done when:** images picked in the CMS render correctly on the site via the loader. ⚠️ Code complete 2026-11-18; live render needs a running Atlas + a Cloudinary-backed media item. See `../ativa-cms/docs/DECISIONS.md` ADR-023.
 
 ### Phase 6 — Ativa design system + block library (stops for approval)
 - [ ] Propose design tokens and a `/design-system` page from the inspiration designs, then **wait for approval**
